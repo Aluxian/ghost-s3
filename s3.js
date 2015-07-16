@@ -26,6 +26,7 @@ S3FileStore.prototype.save = function (image) {
         return putObject({
             Bucket: config.aws.bucket,
             Key: filename,
+            ACL: 'public-read',
             Body: buffer,
             ContentType: image.type,
             CacheControl: 'max-age=' + (30 * 24 * 60 * 60) // 30 days
