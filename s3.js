@@ -32,7 +32,11 @@ S3FileStore.prototype.save = function (image) {
             CacheControl: 'max-age=' + (30 * 24 * 60 * 60) // 30 days
         });
     }).then(function (result) {
-        return 'https://' + config.aws.bucket + '.s3.amazonaws.com/' + filename;
+        if (config.aws.cloudfront) {
+            return 'https://' + config.aws.cloudfront + '.cloudfront.net/' + filename;
+        } else {
+            return 'https://' + config.aws.bucket + '.s3.amazonaws.com/' + filename;
+        }
     }).catch(function (e) {
         errors.logError(e);
         return Promise.reject(e);
